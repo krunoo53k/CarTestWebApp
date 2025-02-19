@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Service.Data;
+using Service.Data.Services.Interfaces;
+using Service.Data.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IVehicleMakeService, VehicleMakeService>();
+builder.Services.AddScoped<IVehicleModelService, VehicleModelService>();
+
 
 var app = builder.Build();
 
