@@ -13,7 +13,7 @@ public class VehicleMakeService : IVehicleMakeService
         _dbContext = dbContext;
     }
 
-    public async Task<VehicleMake> GetByIdAsync(int id)
+    public async Task<VehicleMake?> GetByIdAsync(int id)
     {
         return await _dbContext.VehicleMakes.FindAsync(id);
     }
