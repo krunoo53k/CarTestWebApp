@@ -18,7 +18,7 @@ public class VehicleModelService : IVehicleModelService
         return await _dbContext.VehicleModels.ToListAsync();
     }
 
-    public async Task<VehicleModel> GetByIdAsync(int id)
+    public async Task<VehicleModel?> GetByIdAsync(int id)
     {
         return await _dbContext.VehicleModels.FindAsync(id);
     }
