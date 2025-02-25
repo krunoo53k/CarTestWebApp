@@ -27,7 +27,9 @@ public class VehicleModelService : IVehicleModelService
 
     public async Task<VehicleModel?> GetByIdAsync(int id)
     {
-        return await _dbContext.VehicleModels.FindAsync(id);
+        return await _dbContext.VehicleModels
+            .Include(m => m.Make)
+            .FirstOrDefaultAsync(m => m.Id == id);
     }
 
     public async Task CreateAsync(VehicleModel vehicleModel)
