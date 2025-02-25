@@ -30,9 +30,9 @@ public class VehicleModelController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateVehicleModel([FromBody] VehicleModel vehicleModel)
+    public async Task<IActionResult> CreateVehicleModel([FromBody] CreateVehicleModelDto createVehicleModelDto)
     {
-        await _vehicleModelService.CreateAsync(vehicleModel);
+        await _vehicleModelService.CreateAsync(createVehicleModelDto);
         return Ok();
     }
 
