@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Service.Data.DTOs;
 using Service.Data.Entities;
 using Service.Data.Services.Interfaces;
 
@@ -33,9 +34,9 @@ public class VehicleMakeController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] VehicleMake vehicleMake)
+    public async Task<IActionResult> Post([FromBody] CreateVehicleMakeDto createVehicleMakeDto)
     {
-        await _vehicleMakeService.CreateAsync(vehicleMake);
+        await _vehicleMakeService.CreateAsync(createVehicleMakeDto);
         return Ok();
     }
 
