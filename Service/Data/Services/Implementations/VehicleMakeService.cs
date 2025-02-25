@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Service.Data.Entities;
 using Service.Data.Services.Interfaces;
 
@@ -7,10 +8,12 @@ namespace Service.Data.Services.Implementations;
 public class VehicleMakeService : IVehicleMakeService
 {
     private readonly ApplicationDbContext _dbContext;
+    private readonly IMapper _mapper;
 
-    public VehicleMakeService(ApplicationDbContext dbContext)
+    public VehicleMakeService(ApplicationDbContext dbContext, IMapper mapper)
     {
         _dbContext = dbContext;
+        _mapper = mapper;
     }
 
     public async Task<VehicleMake?> GetByIdAsync(int id)
