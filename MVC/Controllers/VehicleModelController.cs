@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Service.Data;
 using Service.Data.Entities;
 using Service.Data.Services.Interfaces;
@@ -9,10 +10,12 @@ namespace CarTestWebApp.Controllers;
 public class VehicleModelController : Controller
 {
     private readonly IVehicleModelService _vehicleModelService;
+    private readonly IMapper _mapper;
 
-    public VehicleModelController(IVehicleModelService vehicleModelService)
+    public VehicleModelController(IVehicleModelService vehicleModelService, IMapper mapper)
     {
         _vehicleModelService = vehicleModelService;
+        _mapper = mapper;
     }
 
     [HttpGet("{id:int}")]
