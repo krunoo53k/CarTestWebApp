@@ -1,12 +1,13 @@
-﻿using Service.Data.Entities;
+﻿using Service.Data.DTOs;
+using Service.Data.Entities;
 
 namespace Service.Data.Services.Interfaces;
 
 public interface IVehicleMakeService
 {
-    Task<VehicleMake?> GetByIdAsync(int id);
+    Task<VehicleMakeDto?> GetByIdAsync(int id);
     Task<IEnumerable<VehicleMake>> GetAllAsync();
-    Task CreateAsync(VehicleMake vehicleMake);
+    Task CreateAsync(CreateVehicleMakeDto vehicleMakeDto);
     Task UpdateAsync(VehicleMake vehicleMake);
     Task DeleteAsync(int id);
 }
