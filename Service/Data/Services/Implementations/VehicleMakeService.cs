@@ -33,8 +33,9 @@ public class VehicleMakeService : IVehicleMakeService
         return await _dbContext.VehicleMakes.ToListAsync();
     }
 
-    public async Task CreateAsync(VehicleMake vehicleMake)
+    public async Task CreateAsync(CreateVehicleMakeDto vehicleMakeDto)
     {
+        var vehicleMake = _mapper.Map<VehicleMake>(vehicleMakeDto);
         await _dbContext.VehicleMakes.AddAsync(vehicleMake);
         await _dbContext.SaveChangesAsync();
     }
