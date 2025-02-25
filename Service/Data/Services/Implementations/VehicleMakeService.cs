@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Service.Data.DTOs;
 using Service.Data.Entities;
 using Service.Data.Services.Interfaces;
 
@@ -16,9 +17,15 @@ public class VehicleMakeService : IVehicleMakeService
         _mapper = mapper;
     }
 
-    public async Task<VehicleMake?> GetByIdAsync(int id)
+    public async Task<VehicleMakeDto?> GetByIdAsync(int id)
     {
-        return await _dbContext.VehicleMakes.FindAsync(id);
+        var vehicleMake = await _dbContext.VehicleMakes.FindAsync(id);
+        if (vehicleMake != null)
+        {
+            return _mapper.Map<VehicleMakeDto>(vehicleMake);
+        }
+
+        return null;
     }
 
     public async Task<IEnumerable<VehicleMake>> GetAllAsync()
