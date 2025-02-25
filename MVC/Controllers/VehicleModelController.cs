@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Service.Data;
+using CarTestWebApp.Models;
+using Service.Data.DTOs;
 using Service.Data.Entities;
 using Service.Data.Services.Interfaces;
 
@@ -21,12 +22,25 @@ public class VehicleModelController : Controller
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetVehicleModel(int id)
     {
+        // TODO: Get VehicleModelDto instead of VehicleModel 
         var vehicleModel = await _vehicleModelService.GetByIdAsync(id);
         if (vehicleModel == null)
         {
             return NotFound();
         }
-        return Ok(vehicleModel);
+        
+        var vehicleModelDto = _mapper.Map<VehicleModelDto>(vehicleModel);
+        var viewModel = _mapper.Map<VehicleModelViewModel>(vehicleModelDto);
+        
+        return Ok(viewModel);
+    }
+    
+    [HttpGet("all")]
+    public async Task<IActionResult> GetAll()
+    {
+        var vehicleModels = await _vehicleModelService.GetAllAsync();
+        var vehicleModelViewModels = _mapper.Map<IEnumerable<VehicleModelViewModel>>(vehicleModels);
+        return Ok(vehicleModelViewModels);
     }
 
     [HttpPost]
