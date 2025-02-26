@@ -40,9 +40,25 @@ public class VehicleMakeService : IVehicleMakeService
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(VehicleMake vehicleMake)
+    public async Task UpdateAsync(UpdateVehicleMakeDto updateVehicleMakeDto)
     {
-        _dbContext.Update(vehicleMake);
+        var vehicleMake = await _dbContext.VehicleMakes.FindAsync(updateVehicleMakeDto.Id);
+        if (vehicleMake == null)
+        {
+            throw new Exception("VehicleMake not found");
+        }
+
+        string oldAbbrv = vehicleMake.Abrv;
+        _mapper.Map(updateVehicleMakeDto, vehicleMake);
+        
+        
+        // If the abbreviation has changed, so should the VehicleModel table be updated,
+        // since the data is not normalized.
+        if (!string.Equals(oldAbbrv, vehicleMake.Abrv, StringComparison.Ordinal))
+        {
+            var vehicleModels = _dbContext.VehicleModels.Where(vm => vm.MakeId == vehicleMake.Id);
+            await vehicleModels.ForEachAsync(vm => vm.Abrv = vehicleMake.Abrv);
+        }
         await _dbContext.SaveChangesAsync();
     }
 

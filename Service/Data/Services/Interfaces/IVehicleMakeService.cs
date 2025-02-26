@@ -8,6 +8,6 @@ public interface IVehicleMakeService
     Task<VehicleMakeDto?> GetByIdAsync(int id);
     Task<IEnumerable<VehicleMake>> GetAllAsync();
     Task CreateAsync(CreateVehicleMakeDto vehicleMakeDto);
-    Task UpdateAsync(VehicleMake vehicleMake);
+    Task UpdateAsync(UpdateVehicleMakeDto updateVehicleMakeDto);
     Task DeleteAsync(int id);
 }
