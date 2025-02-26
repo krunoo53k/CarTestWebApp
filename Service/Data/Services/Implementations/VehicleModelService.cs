@@ -51,9 +51,17 @@ public class VehicleModelService : IVehicleModelService
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(VehicleModel vehicleModel)
+    public async Task UpdateAsync(UpdateVehicleModelDto updateVehicleModelDto)
     {
-        _dbContext.VehicleModels.Update(vehicleModel);
+        var vehicleModel = await _dbContext.VehicleModels.FindAsync(updateVehicleModelDto.Id);
+        
+        if (vehicleModel == null)
+        {
+            throw new Exception("VehicleModel not found for the provided Id.");
+        }
+        
+        _mapper.Map(updateVehicleModelDto, vehicleModel);
+        
         await _dbContext.SaveChangesAsync();
     }
 

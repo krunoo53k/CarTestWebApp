@@ -51,9 +51,9 @@ public class VehicleModelController : Controller
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateVehicleModel([FromBody] VehicleModel vehicleModel)
+    public async Task<IActionResult> UpdateVehicleModel([FromBody] UpdateVehicleModelDto updateVehicleModelDto)
     {
-        await _vehicleModelService.UpdateAsync(vehicleModel);
+        await _vehicleModelService.UpdateAsync(updateVehicleModelDto);
         return Ok();
     }
 
