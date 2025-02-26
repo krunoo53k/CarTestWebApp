@@ -41,9 +41,9 @@ public class VehicleMakeController : Controller
     }
 
     [HttpPut]
-    public async Task<IActionResult> Put([FromBody] VehicleMake vehicleMake)
+    public async Task<IActionResult> Put([FromBody] UpdateVehicleMakeDto updateVehicleMakeDto)
     {
-        await _vehicleMakeService.UpdateAsync(vehicleMake);
+        await _vehicleMakeService.UpdateAsync(updateVehicleMakeDto);
         return Ok();
     }
 
