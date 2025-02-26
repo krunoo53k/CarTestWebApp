@@ -23,7 +23,10 @@ public class MappingProfile : Profile
         
         CreateMap<UpdateVehicleMakeDto, VehicleMake>()
             .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
-
         
+        CreateMap<UpdateVehicleModelDto, VehicleModel>()
+            .ForMember(dest => dest.MakeId, opt => opt.PreCondition(src => src.MakeId.HasValue))
+            .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
     }
 }
