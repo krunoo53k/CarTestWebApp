@@ -17,11 +17,27 @@ public class VehicleModelService : IVehicleModelService
         _mapper = mapper;
     }
     
-    public async Task<IEnumerable<VehicleModelDto>> GetAllAsync()
+    public async Task<IEnumerable<VehicleModelDto>> GetAllAsync(string  sortBy, string sortOrder)
     {
-        var vehicleModels = await _dbContext.VehicleModels
-            .Include(m  => m.Make)
-            .ToListAsync();
+        IQueryable<VehicleModel> query = _dbContext.VehicleModels.Include(m => m.Make);
+
+        switch (sortBy)
+        {
+            case "make":
+                query = sortOrder == "asc"
+                    ? query.OrderBy(m => m.Make.Name)
+                    : query.OrderByDescending(m => m.Make.Name);
+                break;
+            case "model":
+                default:
+                query = sortOrder == "asc"
+                ? query.OrderBy(m => m.Name)
+                : query.OrderByDescending(m => m.Name);
+                break;
+        }
+        
+        var vehicleModels = await query.ToListAsync();
+        
         return _mapper.Map<IEnumerable<VehicleModelDto>>(vehicleModels);
     }
 

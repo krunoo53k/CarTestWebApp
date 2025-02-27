@@ -28,9 +28,15 @@ public class VehicleMakeService : IVehicleMakeService
         return null;
     }
 
-    public async Task<IEnumerable<VehicleMake>> GetAllAsync()
+    public async Task<IEnumerable<VehicleMake>> GetAllAsync(string sortOrder)
     {
-        return await _dbContext.VehicleMakes.ToListAsync();
+        IQueryable<VehicleMake> query = _dbContext.VehicleMakes;
+
+        query = sortOrder == "desc"
+            ? query.OrderByDescending(m => m.Name)
+            : query.OrderBy(m => m.Name);
+        
+        return await query.ToListAsync();
     }
 
     public async Task CreateAsync(CreateVehicleMakeDto vehicleMakeDto)
