@@ -27,9 +27,9 @@ public class VehicleMakeController : Controller
     }
     
     [HttpGet("all")]
-    public async Task<IActionResult> GetAll([FromQuery] string sortOrder)
+    public async Task<IActionResult> GetAll([FromQuery] string sortOrder, [FromQuery] string? searchTerm)
     {
-        var vehicleMakes = await _vehicleMakeService.GetAllAsync(sortOrder);
+        var vehicleMakes = await _vehicleMakeService.GetAllAsync(sortOrder, searchTerm);
         return Ok(vehicleMakes);
     }
 

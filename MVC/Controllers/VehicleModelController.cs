@@ -36,9 +36,9 @@ public class VehicleModelController : Controller
     }
     
     [HttpGet("all")]
-    public async Task<IActionResult> GetAll([FromQuery] string sortBy = "model",  [FromQuery] string sortOrder = "asc")
+    public async Task<IActionResult> GetAll([FromQuery] string sortBy = "model",  [FromQuery] string sortOrder = "asc", [FromQuery] string? searchTerm = null)
     {
-        var vehicleModels = await _vehicleModelService.GetAllAsync(sortBy, sortOrder);
+        var vehicleModels = await _vehicleModelService.GetAllAsync(sortBy, sortOrder, searchTerm);
         var vehicleModelViewModels = _mapper.Map<IEnumerable<VehicleModelViewModel>>(vehicleModels);
         return Ok(vehicleModelViewModels);
     }

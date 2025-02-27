@@ -5,7 +5,7 @@ namespace Service.Data.Services.Interfaces;
 
 public interface IVehicleModelService
 {
-    Task<IEnumerable<VehicleModelDto>> GetAllAsync(string  sortBy, string sortOrder);
+    Task<IEnumerable<VehicleModelDto>> GetAllAsync(string  sortBy, string sortOrder, string? searchTerm);
     Task<VehicleModel?> GetByIdAsync(int id);
     Task CreateAsync(CreateVehicleModelDto createVehicleModelDto);
     Task UpdateAsync(UpdateVehicleModelDto updateVehicleModelDto);

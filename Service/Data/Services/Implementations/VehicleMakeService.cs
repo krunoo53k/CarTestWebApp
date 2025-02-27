@@ -28,9 +28,14 @@ public class VehicleMakeService : IVehicleMakeService
         return null;
     }
 
-    public async Task<IEnumerable<VehicleMake>> GetAllAsync(string sortOrder)
+    public async Task<IEnumerable<VehicleMake>> GetAllAsync(string sortOrder, string? searchTerm)
     {
         IQueryable<VehicleMake> query = _dbContext.VehicleMakes;
+        
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            query = query.Where(m => EF.Functions.Like(m.Name, $"{searchTerm}%"));
+        }
 
         query = sortOrder == "desc"
             ? query.OrderByDescending(m => m.Name)

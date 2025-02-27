@@ -17,9 +17,14 @@ public class VehicleModelService : IVehicleModelService
         _mapper = mapper;
     }
     
-    public async Task<IEnumerable<VehicleModelDto>> GetAllAsync(string  sortBy, string sortOrder)
+    public async Task<IEnumerable<VehicleModelDto>> GetAllAsync(string  sortBy, string sortOrder, string? searchTerm)
     {
         IQueryable<VehicleModel> query = _dbContext.VehicleModels.Include(m => m.Make);
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            query = query.Where(m => EF.Functions.Like(m.Name, $"{searchTerm}%"));
+        }
 
         switch (sortBy)
         {
