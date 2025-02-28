@@ -48,11 +48,14 @@ public class VehicleModelService : IVehicleModelService
         return _mapper.Map<IEnumerable<VehicleModelDto>>(vehicleModels);
     }
 
-    public async Task<VehicleModel?> GetByIdAsync(int id)
+    public async Task<VehicleModelDto?> GetByIdAsync(int id)
     {
-        return await _dbContext.VehicleModels
+        var vehicleModel = await _dbContext.VehicleModels
             .Include(m => m.Make)
             .FirstOrDefaultAsync(m => m.Id == id);
+        
+        var vehicleModelDto = _mapper.Map<VehicleModelDto>(vehicleModel);
+        return vehicleModelDto;
     }
 
     public async Task CreateAsync(CreateVehicleModelDto createVehicleModelDto)
