@@ -58,7 +58,7 @@ public class VehicleModelService : IVehicleModelService
         return vehicleModelDto;
     }
 
-    public async Task CreateAsync(CreateVehicleModelDto createVehicleModelDto)
+    public async Task<VehicleModelDto?> CreateAsync(CreateVehicleModelDto createVehicleModelDto)
     {
         var vehicleModel = _mapper.Map<VehicleModel>(createVehicleModelDto);
         
@@ -67,7 +67,7 @@ public class VehicleModelService : IVehicleModelService
     
         if (make == null)
         {
-            throw new Exception("VehicleMake not found for the provided MakeId.");
+            return null;
         }
         
         vehicleModel.Make = make;
@@ -75,6 +75,8 @@ public class VehicleModelService : IVehicleModelService
         
         await _dbContext.VehicleModels.AddAsync(vehicleModel);
         await _dbContext.SaveChangesAsync();
+        
+        return  _mapper.Map<VehicleModelDto>(vehicleModel);
     }
 
     public async Task UpdateAsync(UpdateVehicleModelDto updateVehicleModelDto)

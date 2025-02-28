@@ -44,8 +44,12 @@ public class VehicleModelController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateVehicleModel([FromBody] CreateVehicleModelDto createVehicleModelDto)
     {
-        await _vehicleModelService.CreateAsync(createVehicleModelDto);
-        return Ok();
+        var createdVehicleModel = await _vehicleModelService.CreateAsync(createVehicleModelDto);
+        if (createdVehicleModel == null)
+        {
+            return BadRequest();
+        }
+        return CreatedAtAction(nameof(GetVehicleModel), new { id = createdVehicleModel.Id }, createdVehicleModel);
     }
 
     [HttpPut]
