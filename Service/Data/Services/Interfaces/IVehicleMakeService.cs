@@ -6,7 +6,7 @@ namespace Service.Data.Services.Interfaces;
 public interface IVehicleMakeService
 {
     Task<VehicleMakeDto?> GetByIdAsync(int id);
-    Task<IEnumerable<VehicleMake>> GetAllAsync(string sortOrder, string? searchTerm);
+    Task<IEnumerable<VehicleMake>> GetAllAsync(string sortOrder, string? searchTerm, int pageNumber, int pageSize);
     Task CreateAsync(CreateVehicleMakeDto vehicleMakeDto);
     Task UpdateAsync(UpdateVehicleMakeDto updateVehicleMakeDto);
     Task DeleteAsync(int id);

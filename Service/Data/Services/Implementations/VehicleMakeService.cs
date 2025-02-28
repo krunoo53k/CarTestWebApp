@@ -28,7 +28,7 @@ public class VehicleMakeService : IVehicleMakeService
         return null;
     }
 
-    public async Task<IEnumerable<VehicleMake>> GetAllAsync(string sortOrder, string? searchTerm)
+    public async Task<IEnumerable<VehicleMake>> GetAllAsync(string sortOrder, string? searchTerm, int pageNumber, int pageSize)
     {
         IQueryable<VehicleMake> query = _dbContext.VehicleMakes;
         
@@ -40,6 +40,8 @@ public class VehicleMakeService : IVehicleMakeService
         query = sortOrder == "desc"
             ? query.OrderByDescending(m => m.Name)
             : query.OrderBy(m => m.Name);
+        
+        query = query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
         
         return await query.ToListAsync();
     }

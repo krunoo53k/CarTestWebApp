@@ -17,7 +17,7 @@ public class VehicleModelService : IVehicleModelService
         _mapper = mapper;
     }
     
-    public async Task<IEnumerable<VehicleModelDto>> GetAllAsync(string  sortBy, string sortOrder, string? searchTerm)
+    public async Task<IEnumerable<VehicleModelDto>> GetAllAsync(string  sortBy, string sortOrder, string? searchTerm, int pageNumber = 1, int pageSize = 10)
     {
         IQueryable<VehicleModel> query = _dbContext.VehicleModels.Include(m => m.Make);
 
@@ -40,6 +40,8 @@ public class VehicleModelService : IVehicleModelService
                 : query.OrderByDescending(m => m.Name);
                 break;
         }
+        
+        query = query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
         
         var vehicleModels = await query.ToListAsync();
         
