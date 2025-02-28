@@ -22,15 +22,13 @@ public class VehicleModelController : Controller
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetVehicleModel(int id)
     {
-        // TODO: Get VehicleModelDto instead of VehicleModel 
         var vehicleModel = await _vehicleModelService.GetByIdAsync(id);
         if (vehicleModel == null)
         {
             return NotFound();
         }
         
-        var vehicleModelDto = _mapper.Map<VehicleModelDto>(vehicleModel);
-        var viewModel = _mapper.Map<VehicleModelViewModel>(vehicleModelDto);
+        var viewModel = _mapper.Map<VehicleModelViewModel>(vehicleModel);
         
         return Ok(viewModel);
     }
