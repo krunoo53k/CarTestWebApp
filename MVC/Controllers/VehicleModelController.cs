@@ -56,13 +56,13 @@ public class VehicleModelController : Controller
     public async Task<IActionResult> UpdateVehicleModel([FromBody] UpdateVehicleModelDto updateVehicleModelDto)
     {
         await _vehicleModelService.UpdateAsync(updateVehicleModelDto);
-        return Ok();
+        return NoContent();
     }
 
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteVehicleModel(int id)
     {
         await _vehicleModelService.DeleteAsync(id);
-        return Ok();
+        return NoContent();
     }
 }

@@ -44,13 +44,13 @@ public class VehicleMakeController : Controller
     public async Task<IActionResult> Put([FromBody] UpdateVehicleMakeDto updateVehicleMakeDto)
     {
         await _vehicleMakeService.UpdateAsync(updateVehicleMakeDto);
-        return Ok();
+        return NoContent();
     }
 
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
         await _vehicleMakeService.DeleteAsync(id);
-        return Ok();
+        return NoContent();
     }
 }
