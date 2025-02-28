@@ -28,7 +28,7 @@ public class VehicleMakeService : IVehicleMakeService
         return null;
     }
 
-    public async Task<IEnumerable<VehicleMake>> GetAllAsync(string sortOrder, string? searchTerm, int pageNumber, int pageSize)
+    public async Task<IEnumerable<VehicleMakeDto>> GetAllAsync(string sortOrder, string? searchTerm, int pageNumber, int pageSize)
     {
         IQueryable<VehicleMake> query = _dbContext.VehicleMakes;
         
@@ -43,7 +43,9 @@ public class VehicleMakeService : IVehicleMakeService
         
         query = query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
         
-        return await query.ToListAsync();
+        var vehicleMakes = await query.ToListAsync();
+        
+        return(_mapper.Map<IEnumerable<VehicleMakeDto>>(vehicleMakes));
     }
 
     public async Task<VehicleMakeDto> CreateAsync(CreateVehicleMakeDto vehicleMakeDto)

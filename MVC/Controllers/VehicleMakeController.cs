@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using CarTestWebApp.Models;
+using Microsoft.AspNetCore.Mvc;
 using Service.Data.DTOs;
 using Service.Data.Entities;
 using Service.Data.Services.Interfaces;
@@ -9,10 +11,12 @@ namespace CarTestWebApp.Controllers;
 public class VehicleMakeController : Controller
 {
     private readonly IVehicleMakeService _vehicleMakeService;
+    private readonly IMapper _mapper;
 
-    public VehicleMakeController(IVehicleMakeService vehicleMakeService)
+    public VehicleMakeController(IVehicleMakeService vehicleMakeService,  IMapper mapper)
     {
         _vehicleMakeService = vehicleMakeService;
+        _mapper = mapper;
     }
     
     [HttpGet("{id:int}")]
@@ -23,14 +27,19 @@ public class VehicleMakeController : Controller
         {
             return NotFound();
         }
-        return Ok(vehicleMake);
+        
+        var vehicleMakeViewModel = _mapper.Map<VehicleMakeViewModel>(vehicleMake);
+        
+        return Ok(vehicleMakeViewModel);
     }
     
     [HttpGet("all")]
     public async Task<IActionResult> GetAll([FromQuery] string sortOrder, [FromQuery] string? searchTerm, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
         var vehicleMakes = await _vehicleMakeService.GetAllAsync(sortOrder, searchTerm, pageNumber, pageSize);
-        return Ok(vehicleMakes);
+        
+        var vehicleMakesViewModel = _mapper.Map<IEnumerable<VehicleMakeViewModel>>(vehicleMakes);
+        return Ok(vehicleMakesViewModel);
     }
 
     [HttpPost]
