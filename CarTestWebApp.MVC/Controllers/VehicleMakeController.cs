@@ -20,9 +20,9 @@ public class VehicleMakeController : Controller
     }
     
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> Get(int id)
+    public async Task<IActionResult> Get(int id, CancellationToken cancellationToken)
     {
-        var vehicleMake = await _vehicleMakeService.GetByIdAsync(id);
+        var vehicleMake = await _vehicleMakeService.GetByIdAsync(id, cancellationToken);
         if (vehicleMake is null)
         {
             return NotFound();
@@ -34,9 +34,9 @@ public class VehicleMakeController : Controller
     }
     
     [HttpGet("all")]
-    public async Task<IActionResult> GetAll([FromQuery] string sortOrder, [FromQuery] string? searchTerm, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+    public async Task<IActionResult> GetAll(CancellationToken cancellationToken, [FromQuery] string sortOrder, [FromQuery] string? searchTerm, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
-        var vehicleMakes = await _vehicleMakeService.GetAllAsync(sortOrder, searchTerm, pageNumber, pageSize);
+        var vehicleMakes = await _vehicleMakeService.GetAllAsync(sortOrder, searchTerm, pageNumber, pageSize, cancellationToken);
         
         var vehicleMakesViewModel = _mapper.Map<IEnumerable<VehicleMakeViewModel>>(vehicleMakes);
         return Ok(vehicleMakesViewModel);

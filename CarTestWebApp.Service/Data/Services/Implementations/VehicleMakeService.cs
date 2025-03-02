@@ -17,9 +17,10 @@ public class VehicleMakeService : IVehicleMakeService
         _mapper = mapper;
     }
 
-    public async Task<VehicleMakeDto?> GetByIdAsync(int id)
+    public async Task<VehicleMakeDto?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        var vehicleMake = await _dbContext.VehicleMakes.FindAsync(id);
+        var vehicleMake = await _dbContext.VehicleMakes.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        
         if (vehicleMake != null)
         {
             return _mapper.Map<VehicleMakeDto>(vehicleMake);
@@ -28,7 +29,7 @@ public class VehicleMakeService : IVehicleMakeService
         return null;
     }
 
-    public async Task<IEnumerable<VehicleMakeDto>> GetAllAsync(string sortOrder, string? searchTerm, int pageNumber, int pageSize)
+    public async Task<IEnumerable<VehicleMakeDto>> GetAllAsync(string sortOrder, string? searchTerm, int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
         IQueryable<VehicleMake> query = _dbContext.VehicleMakes;
         
@@ -43,7 +44,7 @@ public class VehicleMakeService : IVehicleMakeService
         
         query = query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
         
-        var vehicleMakes = await query.ToListAsync();
+        var vehicleMakes = await query.ToListAsync(cancellationToken);
         
         return(_mapper.Map<IEnumerable<VehicleMakeDto>>(vehicleMakes));
     }

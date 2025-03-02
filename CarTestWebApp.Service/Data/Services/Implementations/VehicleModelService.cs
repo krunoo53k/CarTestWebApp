@@ -17,7 +17,7 @@ public class VehicleModelService : IVehicleModelService
         _mapper = mapper;
     }
     
-    public async Task<IEnumerable<VehicleModelDto>> GetAllAsync(string  sortBy, string sortOrder, string? searchTerm, int pageNumber = 1, int pageSize = 10)
+    public async Task<IEnumerable<VehicleModelDto>> GetAllAsync(string  sortBy, string sortOrder, string? searchTerm, CancellationToken cancellationToken , int pageNumber = 1, int pageSize = 10)
     {
         IQueryable<VehicleModel> query = _dbContext.VehicleModels.Include(m => m.Make);
 
@@ -43,16 +43,17 @@ public class VehicleModelService : IVehicleModelService
         
         query = query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
         
-        var vehicleModels = await query.ToListAsync();
+        var vehicleModels = await query.ToListAsync(cancellationToken);
         
         return _mapper.Map<IEnumerable<VehicleModelDto>>(vehicleModels);
     }
 
-    public async Task<VehicleModelDto?> GetByIdAsync(int id)
+    public async Task<VehicleModelDto?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         var vehicleModel = await _dbContext.VehicleModels
+            .AsNoTracking()
             .Include(m => m.Make)
-            .FirstOrDefaultAsync(m => m.Id == id);
+            .FirstOrDefaultAsync(m => m.Id == id, cancellationToken);
         
         var vehicleModelDto = _mapper.Map<VehicleModelDto>(vehicleModel);
         return vehicleModelDto;
