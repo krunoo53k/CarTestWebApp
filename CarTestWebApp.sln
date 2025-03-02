@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC", "MVC\MVC.csproj", "{7F44DB96-6417-47A7-8072-820960C77150}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarTestWebApp.MVC", "CarTestWebApp.MVC\CarTestWebApp.MVC.csproj", "{7F44DB96-6417-47A7-8072-820960C77150}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{1663DCC5-DC9D-4DB3-9D62-9C2BA0CED3CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarTestWebApp.Service", "CarTestWebApp.Service\CarTestWebApp.Service.csproj", "{1663DCC5-DC9D-4DB3-9D62-9C2BA0CED3CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

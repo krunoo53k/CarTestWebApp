@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Service\Service.csproj" />
+      <ProjectReference Include="..\CarTestWebApp.Service\CarTestWebApp.Service.csproj" />
     </ItemGroup>
 
 </Project>

@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service.Data;
 
@@ -11,11 +10,9 @@ using Service.Data;
 namespace Service.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250214140649_Initial")]
-    partial class Initial
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,7 +21,7 @@ namespace Service.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Service.Data.Entities.VehicleMake", b =>
+            modelBuilder.Entity("CarTestWebApp.Service.Data.Entities.VehicleMake", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -45,7 +42,7 @@ namespace Service.Migrations
                     b.ToTable("VehicleMakes");
                 });
 
-            modelBuilder.Entity("Service.Data.Entities.VehicleModel", b =>
+            modelBuilder.Entity("CarTestWebApp.Service.Data.Entities.VehicleModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,9 +68,9 @@ namespace Service.Migrations
                     b.ToTable("VehicleModels");
                 });
 
-            modelBuilder.Entity("Service.Data.Entities.VehicleModel", b =>
+            modelBuilder.Entity("CarTestWebApp.Service.Data.Entities.VehicleModel", b =>
                 {
-                    b.HasOne("Service.Data.Entities.VehicleMake", "Make")
+                    b.HasOne("CarTestWebApp.Service.Data.Entities.VehicleMake", "Make")
                         .WithMany("Models")
                         .HasForeignKey("MakeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -82,7 +79,7 @@ namespace Service.Migrations
                     b.Navigation("Make");
                 });
 
-            modelBuilder.Entity("Service.Data.Entities.VehicleMake", b =>
+            modelBuilder.Entity("CarTestWebApp.Service.Data.Entities.VehicleMake", b =>
                 {
                     b.Navigation("Models");
                 });
