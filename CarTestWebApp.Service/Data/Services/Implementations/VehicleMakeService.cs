@@ -62,7 +62,7 @@ public class VehicleMakeService : IVehicleMakeService
         var vehicleMake = await _dbContext.VehicleMakes.FindAsync(updateVehicleMakeDto.Id);
         if (vehicleMake == null)
         {
-            throw new Exception("VehicleMake not found");
+            throw new KeyNotFoundException($"VehicleMake with provided id {updateVehicleMakeDto.Id} not found");
         }
 
         string oldAbbrv = vehicleMake.Abrv;

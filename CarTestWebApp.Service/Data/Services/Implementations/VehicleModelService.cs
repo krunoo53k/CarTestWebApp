@@ -86,7 +86,7 @@ public class VehicleModelService : IVehicleModelService
         
         if (vehicleModel == null)
         {
-            throw new Exception("VehicleModel not found for the provided Id.");
+            throw new KeyNotFoundException($"VehicleModel not found for the provided Id ({updateVehicleModelDto.Id}).");
         }
         
         _mapper.Map(updateVehicleModelDto, vehicleModel);
