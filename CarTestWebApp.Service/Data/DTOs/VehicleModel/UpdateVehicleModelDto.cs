@@ -1,4 +1,4 @@
-﻿namespace Service.Data.DTOs;
+﻿using Service.Data.DTOs.Generics;
 
 namespace Service.Data.DTOs.VehicleModel;
 

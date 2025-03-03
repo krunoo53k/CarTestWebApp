@@ -1,6 +1,8 @@
+using Service.Data.DTOs.Generics;
+
 namespace Service.Data.Entities;
 
-public class VehicleModel
+public class VehicleModel : IBaseEntity
 {
     public int Id { get; set; }
     public int MakeId { get; set; }
