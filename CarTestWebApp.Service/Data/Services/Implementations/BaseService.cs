@@ -78,8 +78,10 @@ public abstract class BaseService<TEntity, TDto, TCreateDto, TUpdateDto>
             _dbSet.Remove(entity);
             await _dbContext.SaveChangesAsync();
         }
-
-        throw new KeyNotFoundException($"Entity with id {id} not found");
+        else
+        {
+            throw new KeyNotFoundException($"Entity with id {id} not found");
+        }
     }
 
     protected virtual IQueryable<TEntity> ApplySort(IQueryable<TEntity> query, string? sortBy, string? sortOrder)
