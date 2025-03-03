@@ -49,6 +49,12 @@ public class VehicleMakeController : Controller
     public async Task<IActionResult> Post([FromBody] CreateVehicleMakeDto createVehicleMakeDto)
     {
         var createdVehicleMake = await _vehicleMakeService.CreateAsync(createVehicleMakeDto);
+
+        if (createdVehicleMake is null)
+        {
+            return BadRequest(createVehicleMakeDto);
+        }
+        
         return CreatedAtAction(nameof(Get), new { id = createdVehicleMake.Id }, createdVehicleMake);
     }
 
