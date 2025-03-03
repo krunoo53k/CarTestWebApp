@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using CarTestWebApp.Models;
 using Service.Data.DTOs;
@@ -22,7 +23,8 @@ public class VehicleModelController : Controller
     }
 
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> GetVehicleModel(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetVehicleModel(
+        [FromRoute, Range(0, int.MaxValue, ErrorMessage = "ID must be between 0 and the maximum integer value.")] int id, CancellationToken cancellationToken)
     {
         var vehicleModel = await _vehicleModelService.GetByIdAsync(id, cancellationToken);
         if (vehicleModel == null)
@@ -62,7 +64,7 @@ public class VehicleModelController : Controller
     }
 
     [HttpDelete("{id:int}")]
-    public async Task<IActionResult> DeleteVehicleModel(int id)
+    public async Task<IActionResult> DeleteVehicleModel([FromRoute, Range(0, int.MaxValue, ErrorMessage = "ID must be between 0 and the maximum integer value.")] int id)
     {
         await _vehicleModelService.DeleteAsync(id);
         return NoContent();
