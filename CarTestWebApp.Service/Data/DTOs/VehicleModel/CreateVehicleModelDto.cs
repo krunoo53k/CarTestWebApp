@@ -1,4 +1,4 @@
-﻿namespace Service.Data.DTOs;
+﻿namespace Service.Data.DTOs.VehicleModel;
 
 public class CreateVehicleModelDto
 {

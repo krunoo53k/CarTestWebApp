@@ -1,6 +1,8 @@
 ﻿namespace Service.Data.DTOs;
 
-public class UpdateVehicleModelDto
+namespace Service.Data.DTOs.VehicleModel;
+
+public class UpdateVehicleModelDto : IUpdateDto
 {
     public int Id { get; set; }
     public string? Name { get; set; }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Service.Data.DTOs;
+using Service.Data.DTOs.VehicleMake;
 using Service.Data.Entities;
 using Service.Data.Services.Interfaces;
 

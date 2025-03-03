@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using CarTestWebApp.Models;
 using Service.Data.DTOs;
+using Service.Data.DTOs.VehicleMake;
+using Service.Data.DTOs.VehicleModel;
 using Service.Data.Entities;
 
 namespace CarTestWebApp.Mappings;

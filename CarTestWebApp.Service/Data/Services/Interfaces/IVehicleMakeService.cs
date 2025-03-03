@@ -1,4 +1,5 @@
 ﻿using Service.Data.DTOs;
+using Service.Data.DTOs.VehicleMake;
 using Service.Data.Entities;
 
 namespace Service.Data.Services.Interfaces;
