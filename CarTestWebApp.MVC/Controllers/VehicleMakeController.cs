@@ -8,6 +8,7 @@ using Service.Data.Services.Interfaces;
 
 namespace CarTestWebApp.Controllers;
 
+[ApiController]
 [Route("api/[controller]")]
 public class VehicleMakeController : Controller
 {
