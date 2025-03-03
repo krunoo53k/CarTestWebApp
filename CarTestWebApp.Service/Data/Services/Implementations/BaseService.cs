@@ -39,7 +39,7 @@ public abstract class BaseService<TEntity, TDto, TCreateDto, TUpdateDto>
 
         if (!string.IsNullOrWhiteSpace(searchTerm))
         {
-            query = query.Where(e => EF.Functions.Like(e.Name, $"%{searchTerm}%"));
+            query = query.Where(e => EF.Functions.Like(e.Name, $"{searchTerm}%"));
         }
 
         query = sortOrder == "desc" ? 
