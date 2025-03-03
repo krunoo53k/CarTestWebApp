@@ -7,40 +7,22 @@ using Service.Data.Services.Interfaces;
 
 namespace Service.Data.Services.Implementations;
 
-public class VehicleModelService : IVehicleModelService
+public class VehicleModelService : BaseService<VehicleModel, VehicleModelDto, CreateVehicleModelDto, UpdateVehicleModelDto>,IVehicleModelService
 {
-    private readonly ApplicationDbContext _dbContext;
-    private readonly IMapper _mapper;
-
-    public VehicleModelService(ApplicationDbContext dbContext,  IMapper mapper)
+    public VehicleModelService(ApplicationDbContext dbContext,  IMapper mapper) : base(dbContext, mapper)
     {
-        _dbContext = dbContext;
-        _mapper = mapper;
     }
     
-    public async Task<IEnumerable<VehicleModelDto>> GetAllAsync(string  sortBy, string sortOrder, string? searchTerm, CancellationToken cancellationToken , int pageNumber = 1, int pageSize = 10)
+    public override async Task<IEnumerable<VehicleModelDto>> GetAllAsync(CancellationToken cancellationToken, string  sortBy, string sortOrder, string? searchTerm, int pageNumber = 1, int pageSize = 10)
     {
-        IQueryable<VehicleModel> query = _dbContext.VehicleModels.Include(m => m.Make);
+        IQueryable<VehicleModel> query = _dbSet.Include(e => e.Make);
 
         if (!string.IsNullOrWhiteSpace(searchTerm))
         {
-            query = query.Where(m => EF.Functions.Like(m.Name, $"{searchTerm}%"));
+            query = query.Where(e => EF.Functions.Like(e.Name, $"{searchTerm}%"));
         }
 
-        switch (sortBy)
-        {
-            case "make":
-                query = sortOrder == "asc"
-                    ? query.OrderBy(m => m.Make.Name)
-                    : query.OrderByDescending(m => m.Make.Name);
-                break;
-            case "model":
-                default:
-                query = sortOrder == "asc"
-                ? query.OrderBy(m => m.Name)
-                : query.OrderByDescending(m => m.Name);
-                break;
-        }
+        query = ApplySort(query, sortBy, sortOrder);
         
         query = query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
         
@@ -48,8 +30,8 @@ public class VehicleModelService : IVehicleModelService
         
         return _mapper.Map<IEnumerable<VehicleModelDto>>(vehicleModels);
     }
-
-    public async Task<VehicleModelDto?> GetByIdAsync(int id, CancellationToken cancellationToken)
+    
+    public override async Task<VehicleModelDto?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         var vehicleModel = await _dbContext.VehicleModels
             .AsNoTracking()
@@ -60,7 +42,7 @@ public class VehicleModelService : IVehicleModelService
         return vehicleModelDto;
     }
 
-    public async Task<VehicleModelDto?> CreateAsync(CreateVehicleModelDto createVehicleModelDto)
+    public override async Task<VehicleModelDto?> CreateAsync(CreateVehicleModelDto createVehicleModelDto)
     {
         var vehicleModel = _mapper.Map<VehicleModel>(createVehicleModelDto);
         
@@ -80,28 +62,23 @@ public class VehicleModelService : IVehicleModelService
         
         return  _mapper.Map<VehicleModelDto>(vehicleModel);
     }
-
-    public async Task UpdateAsync(UpdateVehicleModelDto updateVehicleModelDto)
+    
+    protected override IQueryable<VehicleModel> ApplySort(IQueryable<VehicleModel> query, string? sortBy, string? sortOrder)
     {
-        var vehicleModel = await _dbContext.VehicleModels.FindAsync(updateVehicleModelDto.Id);
-        
-        if (vehicleModel == null)
+        if (string.IsNullOrWhiteSpace(sortBy))
         {
-            throw new KeyNotFoundException($"VehicleModel not found for the provided Id ({updateVehicleModelDto.Id}).");
+            sortBy = "name";
         }
         
-        _mapper.Map(updateVehicleModelDto, vehicleModel);
-        
-        await _dbContext.SaveChangesAsync();
-    }
-
-    public async Task DeleteAsync(int id)
-    {
-        var vehicleModel = await _dbContext.VehicleModels.FindAsync(id);
-        if (vehicleModel != null)
+        if (sortBy.ToLower() is "make")
         {
-            _dbContext.VehicleModels.Remove(vehicleModel);
-            await _dbContext.SaveChangesAsync();
+            if (sortOrder is "desc")
+                return query.OrderByDescending(e => e.Make.Name);
+            return query.OrderBy(e => e.Make.Name);
         }
+
+        if (sortOrder is "desc")
+            return query.OrderByDescending(e => e.Name);
+        return query.OrderBy(e => e.Name);
     }
 }

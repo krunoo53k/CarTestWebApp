@@ -6,7 +6,7 @@ namespace Service.Data.Services.Interfaces;
 
 public interface IVehicleModelService
 {
-    Task<IEnumerable<VehicleModelDto>> GetAllAsync(string  sortBy, string sortOrder, string? searchTerm, CancellationToken cancellationToken, int pageNumber, int pageSize);
+    Task<IEnumerable<VehicleModelDto>> GetAllAsync(CancellationToken cancellationToken, string  sortBy, string sortOrder, string? searchTerm, int pageNumber, int pageSize);
     Task<VehicleModelDto?> GetByIdAsync(int id, CancellationToken cancellationToken);
     Task<VehicleModelDto?> CreateAsync(CreateVehicleModelDto createVehicleModelDto);
     Task UpdateAsync(UpdateVehicleModelDto updateVehicleModelDto);
