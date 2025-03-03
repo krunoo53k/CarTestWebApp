@@ -2,5 +2,5 @@
 
 public interface IUpdateDto
 {
-    int Id { get; set; }
+    int? Id { get; set; }
 }
