@@ -6,6 +6,7 @@ using Service.Data.DTOs;
 using Service.Data.DTOs.VehicleModel;
 using Service.Data.Entities;
 using Service.Data.Services.Interfaces;
+using KeyNotFoundException = System.Collections.Generic.KeyNotFoundException;
 
 namespace CarTestWebApp.Controllers;
 
@@ -61,14 +62,28 @@ public class VehicleModelController : Controller
     [HttpPut]
     public async Task<IActionResult> UpdateVehicleModel([FromBody] UpdateVehicleModelDto updateVehicleModelDto)
     {
-        await _vehicleModelService.UpdateAsync(updateVehicleModelDto);
-        return NoContent();
+        try
+        {
+            await _vehicleModelService.UpdateAsync(updateVehicleModelDto);
+            return NoContent();
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound();
+        }
     }
 
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteVehicleModel([FromRoute, Range(0, int.MaxValue, ErrorMessage = "ID must be between 0 and the maximum integer value.")] int id)
     {
-        await _vehicleModelService.DeleteAsync(id);
-        return NoContent();
+        try
+        {
+            await _vehicleModelService.DeleteAsync(id);
+            return NoContent();
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound();
+        }
     }
 }
