@@ -37,7 +37,7 @@ public class VehicleModelController : Controller
     [HttpGet("all")]
     public async Task<IActionResult> GetAll(CancellationToken cancellationToken, [FromQuery] string sortBy = "model",  [FromQuery] string sortOrder = "asc", [FromQuery] string? searchTerm = null, int pageNumber = 1, int pageSize = 10)
     {
-        var vehicleModels = await _vehicleModelService.GetAllAsync(cancellationToken, sortBy, sortOrder, searchTerm,pageNumber, pageSize);
+        var vehicleModels = await _vehicleModelService.GetAllAsync(cancellationToken, sortBy, sortOrder, searchTerm, pageNumber, pageSize);
         var vehicleModelViewModels = _mapper.Map<IEnumerable<VehicleModelViewModel>>(vehicleModels);
         return Ok(vehicleModelViewModels);
     }
