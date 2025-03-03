@@ -1,6 +1,8 @@
-﻿namespace Service.Data.DTOs.VehicleMake;
+﻿using Service.Data.DTOs.Generics;
 
-public class UpdateVehicleMakeDto
+namespace Service.Data.DTOs.VehicleMake;
+
+public class UpdateVehicleMakeDto : IUpdateDto
 {
     public int Id { get; set; }
     public string? Name { get; set; }

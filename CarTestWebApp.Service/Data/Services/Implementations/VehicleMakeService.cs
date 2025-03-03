@@ -7,58 +7,13 @@ using Service.Data.Services.Interfaces;
 
 namespace Service.Data.Services.Implementations;
 
-public class VehicleMakeService : IVehicleMakeService
+public class VehicleMakeService : BaseService<VehicleMake, VehicleMakeDto, CreateVehicleMakeDto, UpdateVehicleMakeDto>, IVehicleMakeService
 {
-    private readonly ApplicationDbContext _dbContext;
-    private readonly IMapper _mapper;
-
-    public VehicleMakeService(ApplicationDbContext dbContext, IMapper mapper)
+    public VehicleMakeService(ApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
     {
-        _dbContext = dbContext;
-        _mapper = mapper;
     }
-
-    public async Task<VehicleMakeDto?> GetByIdAsync(int id, CancellationToken cancellationToken)
-    {
-        var vehicleMake = await _dbContext.VehicleMakes.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
-        
-        if (vehicleMake != null)
-        {
-            return _mapper.Map<VehicleMakeDto>(vehicleMake);
-        }
-
-        return null;
-    }
-
-    public async Task<IEnumerable<VehicleMakeDto>> GetAllAsync(string sortOrder, string? searchTerm, int pageNumber, int pageSize, CancellationToken cancellationToken)
-    {
-        IQueryable<VehicleMake> query = _dbContext.VehicleMakes;
-        
-        if (!string.IsNullOrWhiteSpace(searchTerm))
-        {
-            query = query.Where(m => EF.Functions.Like(m.Name, $"{searchTerm}%"));
-        }
-
-        query = sortOrder == "desc"
-            ? query.OrderByDescending(m => m.Name)
-            : query.OrderBy(m => m.Name);
-        
-        query = query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
-        
-        var vehicleMakes = await query.ToListAsync(cancellationToken);
-        
-        return(_mapper.Map<IEnumerable<VehicleMakeDto>>(vehicleMakes));
-    }
-
-    public async Task<VehicleMakeDto> CreateAsync(CreateVehicleMakeDto vehicleMakeDto)
-    {
-        var vehicleMake = _mapper.Map<VehicleMake>(vehicleMakeDto);
-        await _dbContext.VehicleMakes.AddAsync(vehicleMake);
-        await _dbContext.SaveChangesAsync();
-        return _mapper.Map<VehicleMakeDto>(vehicleMake);
-    }
-
-    public async Task UpdateAsync(UpdateVehicleMakeDto updateVehicleMakeDto)
+    
+    public override async Task UpdateAsync(UpdateVehicleMakeDto updateVehicleMakeDto)
     {
         var vehicleMake = await _dbContext.VehicleMakes.FindAsync(updateVehicleMakeDto.Id);
         if (vehicleMake == null)
@@ -79,14 +34,5 @@ public class VehicleMakeService : IVehicleMakeService
         }
         await _dbContext.SaveChangesAsync();
     }
-
-    public async Task DeleteAsync(int id)
-    {
-        var vehicleMake = await _dbContext.VehicleMakes.FindAsync(id);
-        if (vehicleMake != null)
-        {
-            _dbContext.VehicleMakes.Remove(vehicleMake);
-            await _dbContext.SaveChangesAsync();
-        }
-    }
+    
 }

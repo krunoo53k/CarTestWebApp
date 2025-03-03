@@ -1,6 +1,8 @@
+using Service.Data.DTOs.Generics;
+
 namespace Service.Data.Entities;
 
-public class VehicleMake
+public class VehicleMake : IBaseEntity
 {
     public int Id { get; set; }
     public required string Name { get; set; }
