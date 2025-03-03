@@ -49,10 +49,12 @@ public class VehicleModelController : Controller
     public async Task<IActionResult> CreateVehicleModel([FromBody] CreateVehicleModelDto createVehicleModelDto)
     {
         var createdVehicleModel = await _vehicleModelService.CreateAsync(createVehicleModelDto);
+        
         if (createdVehicleModel == null)
         {
-            return BadRequest();
+            return BadRequest($"No make with ID {createVehicleModelDto.MakeId} found.");
         }
+       
         return CreatedAtAction(nameof(GetVehicleModel), new { id = createdVehicleModel.Id }, createdVehicleModel);
     }
 
